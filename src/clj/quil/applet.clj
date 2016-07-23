@@ -154,9 +154,9 @@
 ;; *************************************************************
 (defn -oscEvent
   ([this message]
-     (println "osc message")
-     (with-applet this
-    ((:osc-event (.state this)) message))))
+   (println "osc message")
+   (with-applet this
+     ((:osc-event (.state this))  message))))
 
 (gen-interface
  :name quil.OscP5
