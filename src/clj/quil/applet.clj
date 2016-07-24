@@ -154,9 +154,15 @@
 ;; *************************************************************
 (defn -oscEvent
   ([this message]
-   (println "osc message")
+   (println "osc message received! Message: " message)
+   (println "class:" (class message))
+   (println "addrpattern:" (.addrPattern message))
+   (println "typetag:" (.typetag message))
+   (println (:osc-event (.state this)))
+   (println (.state this))
+   (println this)
    (with-applet this
-     ((:osc-event (.state this))  message))))
+         ((:osc-event (.state this)) message))))
 
 (gen-interface
  :name quil.OscP5
@@ -327,7 +333,7 @@
         draw-fn           (or (:draw options) no-fn)
         setup-fn          (or (:setup options) no-fn)
         settings-fn       (or (:settings options) no-fn)
-        osc-event-fn      (or (:osc-event options) (fn [message] (println "default osc-event"))) ;; ***************
+        osc-event-fn      (or (:osc-event options) (fn [message] (println "default osc-event" message))) ;; ***************
         on-close-fn       (let [close-fn (or (:on-close options) no-fn)]
                             (if (:exit-on-close options)
                               (fn []
