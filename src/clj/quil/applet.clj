@@ -156,7 +156,7 @@
   ([this message]
    (println "osc message received! Message: " message "   addrpattern:" (.addrPattern message) "   typetag:" (.typetag message))
    (with-applet this
-     (:osc-event (.state this)) message)))
+     ((:osc-event (.state this)) message))))
 
 (gen-interface
  :name quil.OscP5
