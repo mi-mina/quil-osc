@@ -14,7 +14,7 @@
             [name (if (u/callable? value)
                     ; :mouse-wheel is a special case as it takes single argument
                     ; while all other fns don't take any arguments
-                    (if (= name :mouse-wheel)
+                    (if (or (= name :mouse-wheel) (= name :osc-event)) ;; ****************
                       #(binding [*out* original-out]
                          (value %))
                       #(binding [*out* original-out]

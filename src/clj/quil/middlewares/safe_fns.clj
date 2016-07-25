@@ -19,6 +19,14 @@
         (println "Exception in :mouse-wheel function:" e "\nstacktrace: " (with-out-str (print-cause-trace e)))
         (Thread/sleep 1000)))))
 
+(defn- wrap-osc-event [function] ;; ******************************
+  (fn [message]
+    (try
+      (function message)
+      (catch Exception e
+        (println "Exception in :osc-event function:" e "\nstacktrace: " (with-out-str (print-cause-trace e)))
+        (Thread/sleep 1000)))))
+
 (defn safe-fns
   "Wraps all functions in options such that they will not throw exceptions
   If function (for example 'draw') throws an exception - exception is
@@ -29,9 +37,21 @@
   (into {}
         (for [[name value] options]
           [name (if (u/callable? value)
-                  ; :mouse-wheel is a special case as it takes single argument
-                  ; while all other fns don't take any arguments
-                  (if (= name :mouse-wheel)
-                    (wrap-mouse-wheel value)
-                    (wrap-fn name value))
-                  value)])))
+                    ; :mouse-wheel is a special case as it takes single argument
+                    ; while all other fns don't take any arguments
+                    (condp = name
+                      :mouse-wheel (wrap-mouse-wheel value)
+                      :osc-event (wrap-osc-event value)   ;; ******************************
+                      (wrap-fn name value))
+                    value)])))
+
+
+
+
+
+
+
+
+
+
+

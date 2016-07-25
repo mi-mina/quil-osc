@@ -154,15 +154,9 @@
 ;; *************************************************************
 (defn -oscEvent
   ([this message]
-   (println "osc message received! Message: " message)
-   (println "class:" (class message))
-   (println "addrpattern:" (.addrPattern message))
-   (println "typetag:" (.typetag message))
-   (println (:osc-event (.state this)))
-   (println (.state this))
-   (println this)
+   (println "osc message received! Message: " message "   addrpattern:" (.addrPattern message) "   typetag:" (.typetag message))
    (with-applet this
-         ((:osc-event (.state this)) message))))
+     (:osc-event (.state this)) message)))
 
 (gen-interface
  :name quil.OscP5
