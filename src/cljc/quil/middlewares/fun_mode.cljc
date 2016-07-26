@@ -58,6 +58,15 @@
              (swap! (q/state-atom) handler rotation)))
     options))
 
+;; **********************************************
+(defn- wrap-osc-event [options]
+  (if-let [handler (:osc-event options)]
+    (assoc options :osc-event
+           (fn [message]
+             (swap! (q/state-atom) handler message)))
+    options))
+;; **********************************************
+
 (defn fun-mode
   "Introduces function mode making all handlers (setup, draw, mouse-click, etc)
   state-aware. Adds support for 'update' function."
@@ -75,4 +84,5 @@
                                              :button (q/mouse-button)})]
                      [:key-pressed key-event] :key-released [:key-typed key-event]
                      :on-close)
-      wrap-mouse-wheel))
+      wrap-mouse-wheel
+      wrap-osc-event)) ;; **********************************************
